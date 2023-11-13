@@ -25,17 +25,22 @@ cout << "Number of players selected is " << x; // Display the # of players
     x = 1;
   std::cout << "Now each Player can pick a character. Each character has different stats which may affect how the game is played. \n"; 
   std::cout <<  Player " << x << " ,please select the character of your choice \n";
-  players Participants[] = { players("name1"), players("name2") ,players("name3"), players("name4"), players("name5") }; //Players and stats pulled from Characters.h
+  players Participants[] = { players("name1"), players("name2") ,players("name3"), players("name4"), players("name5") }; //Players and stats pulled from Characters.h                   //NEED TO SET UP THE NAMES AND ALSO DISPLAY THEIR STATS
   std::cout << "You have selected " << //Participant
   x + 1;
     
   }
+ // Access and print the skills of each character.                                                     //INTEGRATE THIS IN THE LOOP
+    for (const Character& character : characters) {
+        std::cout << character.GetMight() << " " << character.GetSpeed() << " " 
+                  << character.GetKnowledge() << " " << character.GetSanity() << std::endl;
+    }
   
 }
 
 
 // First half of the game
-
+ std::cout << "Lets begin our Journey!\n You and your companions are caught in a bad storm. It was raining so hard you had to pull over. \n You sought refuge in a mysterious mansion atop a hill. \n The door creaked open, but as you entered, it slammed shut, locking you inside the ominous, dimly lit hallway, leaving you trapped and shrouded in a sense of foreboding. \n"; 
 //Trigger a turn
 
 //Role movement dice
