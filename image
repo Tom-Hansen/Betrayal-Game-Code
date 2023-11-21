@@ -1,0 +1,11 @@
+//Here is basic coding for an image if you guys are able to download graphic.h
+#include <iostream>
+#include <graphics.h>
+int main()
+{
+	initwindow(600, 500, "TUTORIAL");
+	cleardevice();
+	readimagefile("Image.jpg",0,0,200,200);
+	getch();
+	closegraph();
+}
