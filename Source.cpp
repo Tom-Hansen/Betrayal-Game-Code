@@ -8,7 +8,7 @@
 #include <chrono>
 #include "Characters.cpp"
 
-#define COLOR_TEXT(color) "\033[38;5;" #color "m"
+#define COLOR_TEXT(color) "\033[38;5;" #color "m" // Colored text controls
 #define BRIGHT "\033[1m"
 #define RESET_COLOR "\033[0m"
 
@@ -39,7 +39,7 @@ public:
         : name(n), character(c), distance(howFar) {}
 };
 
-class Room {
+class Room { // Class for room cards
 public:
     string name;
     string description;
@@ -49,7 +49,7 @@ public:
         : name(n), description(desc), number(num) {}
 };
 
-class Event {
+class Event { // Class for event cards
 public:
     string name;
     string readout;
@@ -63,15 +63,6 @@ public:
 
     Event(const string& n, const string& out, const string& plus, const string& minus, const int& rollnum, const int& helpAmount, const int& hurtAmount, const string& goodOut, const string& badOut)
         : name(n), readout(out), help(plus), hurt(minus), RollFor(rollnum), helpNum(helpAmount), hurtNum(hurtAmount), goodOutput(goodOut), badOutput(badOut) {}
-
-    //int doEvent(Dice& rolling, int trait, int playerNumber) {
-    //    int result = rolling.roll();
-    //    cout << "Player " << playerNumber << " is facing Event " << name << ": " << readout << endl;
-    //    cout << "Rolling " << trait << " dice." << endl;
-    //    this_thread::sleep_for(chrono::seconds(1));
-    //    cout << "You rolled " << result << '\n';
-    //    return result;
-    //}
 };
 
 class Item {
@@ -246,7 +237,7 @@ void secondHalf(vector<Player>& players)
 
     cout << "The Monster has 3 speed, might, sanity, and knowledge." << endl;
     cout << endl;
-    cout << "Press any key and enter to continue on to the game. ";
+    cout << "Press any character/number and enter to continue on to the game. ";
     cin >> move;
     cin.clear(); // Clear the error flag
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -316,7 +307,7 @@ void secondHalf(vector<Player>& players)
         }
 
         cout << endl;
-        cout << "Press any key and enter to continue. ";
+        cout << "Press any character/number and enter to continue. ";
         cin >> move;
         cin.clear(); // Clear the error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -334,7 +325,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
     cout << "We will now move on to the first turn. \nYou will roll a speed roll, meaning you will roll the number of dice corresponding to the number of your speed trait." << endl;
     cout << endl;
     int move;
-    cout << "Press any key and enter to continue. ";
+    cout << "Press any character/number and enter to continue. ";
     cin >> move;
     cin.clear(); // Clear the error flag
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -369,7 +360,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
                cout << "Player " << n << " entered " << selectedRoom.name << ": " << selectedRoom.description << endl;
                int roomNum = selectedRoom.number;
                cout << endl;
-               cout << "Press any key and enter to continue. ";
+               cout << "Press any character/number and enter to continue. ";
                cin >> move;
                cin.clear(); // Clear the error flag
                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -384,7 +375,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
                    cout << "Player " << n << " pulls an event card: " << selectedEvent.name << ". " << endl;
                    cout << selectedEvent.readout << endl;
                    cout << endl;
-                   cout << "Press any key and enter to continue. ";
+                   cout << "Press any character/number and enter to continue. ";
                    cin >> move;
                    cin.clear(); // Clear the error flag
                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -539,7 +530,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
                    cout << "You will now attempt a Haunt roll, where you roll 6 dice. \nIf you roll more than the current Omen level of " << COLOR_TEXT(44) << BRIGHT << Omen << RESET_COLOR << ", the game continues." << endl;
                    cout << "If you roll less than the Omen level, things will change..." << endl;
                    cout << endl;
-                   cout << "Press any key and enter to continue to the Haunt roll. ";
+                   cout << "Press any character/number and enter to continue to the Haunt roll. ";
                    cin >> move;
                    cin.clear(); // Clear the error flag
                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -573,7 +564,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
            cout << "Knowledge: " << player.character.knowledge << endl;
 
            int Move3 = 0;
-           cout << "Press any character and enter to continue the game.";
+           cout << "Press any character/number and enter to continue the game.";
           
            cin >> Move3;
            cin.clear(); // Clear the error flag
@@ -601,7 +592,7 @@ int main()
     int Move; // This is just a variable that the user will enter to move on to the next part of the game. It serves no purpose other than to pause the lines of words.
 
     cout << endl;
-    cout << "Press any key and enter to continue on to the game. ";
+    cout << "Press any character/number and enter to continue on to the game. ";
     cin >> Move;
     cin.clear(); // Clear the error flag
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
@@ -614,7 +605,7 @@ int main()
     int move2; // Another game-pausing variable
 
     cout << endl;
-    cout << "Press any key and enter to continue the game. ";
+    cout << "Press any character/number and enter to continue the game. ";
     cin >> move2;
     cin.clear(); // Clear the error flag
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
