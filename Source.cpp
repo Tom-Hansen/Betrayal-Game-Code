@@ -224,18 +224,20 @@ void secondHalf(vector<Player>& players)
     cout << "Several rooms away, you hear a deep, inhuman scream.\nYou do not know what made that noise, but you don't need to find out.\n";
     this_thread::sleep_for(chrono::seconds(3));
     cout << "It's coming toward you.\n";
-    this_thread::sleep_for(chrono::seconds(2));
+    this_thread::sleep_for(chrono::seconds(3));
     cout << "You need to get out of here.\n";
-    this_thread::sleep_for(chrono::seconds(2));
+    this_thread::sleep_for(chrono::seconds(3));
     cout << "However, not all hope is lost. \nAs you look around hopelessly, you find a key on the ground.\nIt is the key to unlock the jammed front door.\n";
     cout << "The race is on." << endl;
-    this_thread::sleep_for(chrono::seconds(2));
+    this_thread::sleep_for(chrono::seconds(4));
     cout << endl;
 
     cout << "For the second half of the game, you will continue to make speed rolls. \nYou have built up a distance over the first half of the game, now you must backtrack to 0.\n\n";
+    this_thread::sleep_for(chrono::seconds(4));
     cout << "If the monster ends up at the same distance as you, you and the monster make a might roll. \nWhoever rolls higher loses 3 from their distance. \nIf the monster reaches 0, the front door, before any players do, you lose.\n\n";
+    this_thread::sleep_for(chrono::seconds(4));
 
-    cout << "The Monster has 3 speed, might, sanity, and knowledge." << endl;
+    cout << "The Monster has 4 speed, might, sanity, and knowledge." << endl;
     cout << endl;
     cout << "Press any character/number and enter to continue on to the game. ";
     cin >> move;
@@ -253,7 +255,7 @@ void secondHalf(vector<Player>& players)
     {"Brandon Jaspers", 4, 4, 3, 4},
     {"Heather Granville", 3, 4, 5, 3},
     {"Madame Zostra", 4, 3, 4, 4},
-    {"Monster", 3, 3, 3, 3}
+    {"Monster", 4, 4, 4, 4}
     };
     players.push_back(Player("Monster ", characters[5], monstDist));
 
@@ -261,7 +263,7 @@ void secondHalf(vector<Player>& players)
     int keepGoing = 1;
     int playerMight = 0;
     int monstMight = 0;
-    static int monstSpeed = 3;
+    static int monstSpeed = 4;
     
     while (keepGoing ==1)
     {
