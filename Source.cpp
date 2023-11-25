@@ -315,8 +315,8 @@ void secondHalf(vector<Player>& players)
         cout << "----------------------------------------------------------" << endl;
         cout << endl;
         n++;
-    }
-        
+        }
+        n = 1;
     }
 }
 
