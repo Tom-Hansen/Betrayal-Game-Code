@@ -6,6 +6,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include "Characters.cpp"
 
 #define COLOR_TEXT(color) "\033[38;5;" #color "m"
 #define BRIGHT "\033[1m"
@@ -26,18 +27,6 @@ public:
         int die = rand() % 3;     // Dice in Betrayal go from 0 to 2
         return die;
     }
-};
-
-class Character {
-public:
-    string name;
-    int might;
-    int speed;
-    int knowledge;
-    int sanity;
-
-    Character(const string& n, int m, int sp, int kn, int sa)
-        : name(n), might(m), speed(sp), knowledge(kn), sanity(sa) {}
 };
 
 class Player {
@@ -170,7 +159,7 @@ void characterSelecter(int num, vector<Player>& players) {
     }
 }
 
-vector<Player> welcome() {
+vector<Player> welcome() { // Welcome message. Gets characters and player count
     int players = 0;
     cout << endl;
     cout << "Welcome to the C++ version of the board game Betrayal at House on the Hill. This game can be played with 2-5 players." << endl;
@@ -191,7 +180,7 @@ int dice(int num, int n)
     //num = # of dice to roll based on skill or event information
     int total = 0;
 
-    if (n == 666)
+    if (n == 666) // Output specifically for monster
     {
         cout << COLOR_TEXT(9) << BRIGHT << "The Monster " << n << RESET_COLOR << " is rolling " << num << " dice." << endl;
         cout << endl;
@@ -206,7 +195,7 @@ int dice(int num, int n)
             }
         }
     }
-    if (n != 666)
+    if (n != 666) // Output for non-monster players
         {
             cout << COLOR_TEXT(44) << BRIGHT << "Player " << n << RESET_COLOR << " is rolling " << num << " dice." << endl;
             cout << endl;
@@ -226,8 +215,8 @@ int dice(int num, int n)
 
 void secondHalf(vector<Player>& players)
 {
-    //Possibly do a method where players build up distance over time based on their speed rolls being added up?
-    //The monster can spawn with a random distance within and do its own speed rolls to 
+    
+    int move = 0; // Still for pausing the text outputs
     cout << endl;
     cout << "----------------------------------------------------------" << endl;
     cout << endl;
@@ -249,33 +238,39 @@ void secondHalf(vector<Player>& players)
     this_thread::sleep_for(chrono::seconds(2));
     cout << "However, not all hope is lost. \nAs you look around hopelessly, you find a key on the ground.\nIt is the key to unlock the jammed front door.\n";
     cout << "The race is on." << endl;
+    this_thread::sleep_for(chrono::seconds(2));
+    cout << endl;
+
+    cout << "For the second half of the game, you will continue to make speed rolls. \nYou have built up a distance over the first half of the game, now you must backtrack to 0.\n\n";
+    cout << "If the monster ends up at the same distance as you, you and the monster make a might roll. \nWhoever rolls higher loses 3 from their distance. \nIf the monster reaches 0, the front door, before any players do, you lose.\n\n";
+
+    cout << "The Monster has 3 speed, might, sanity, and knowledge." << endl;
+    cout << endl;
+    cout << "Press any key and enter to continue on to the game. ";
+    cin >> move;
+    cin.clear(); // Clear the error flag
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
     cout << endl;
     cout << "----------------------------------------------------------" << endl;
     cout << endl;
 
-    cout << "For the second half of the game, you will continue to make speed rolls. \nYou have built up a distance over the first half of the game, now you must backtrack to 0.";
-    cout << "If the monster ends up at the same distance as you, you and the monster make a might roll. \nWhoever rolls higher loses 3 from their distance. \nIf the monster reaches 0, the front door, before any players do, you lose.";
+    int monstDist = ((rand() % 10)+50); // A bit higher than the average distance an average player will make it in a game.
 
-    cout << "The Monster has 4 speed, might, sanity, and knowledge." << endl;
-
-    int monstDist = (rand() % 40); // 1.5 * the average distance of the highest-speed player during an average game, rounded up to 40 to give players a bit more of a chance
-
-    vector<Character> characters = {
+    vector<Character> characters = { // Brings back the character list to add the monster
     {"Father Rhinehardt", 2, 3, 4, 6},
     {"Zoe Ingstrom", 3, 4, 3, 5},
     {"Brandon Jaspers", 4, 4, 3, 4},
     {"Heather Granville", 3, 4, 5, 3},
     {"Madame Zostra", 4, 3, 4, 4},
-    {"Monster", 4, 4, 4, 4}
+    {"Monster", 3, 3, 3, 3}
     };
     players.push_back(Player("Monster ", characters[5], monstDist));
 
     int n = 1;
-    int move = 0;
     int keepGoing = 1;
     int playerMight = 0;
     int monstMight = 0;
-    static int monstSpeed = 4;
+    static int monstSpeed = 3;
     
     while (keepGoing ==1)
     {
@@ -291,7 +286,7 @@ void secondHalf(vector<Player>& players)
 
         this_thread::sleep_for(chrono::seconds(1));
 
-        if (player.distance == monstDist)
+        if (player.distance == monstDist) // If player meets the monster. This is a double might roll.
         {
             playerMight = dice(player.character.might, n);
             monstMight = dice(monstSpeed, 666);
@@ -304,19 +299,20 @@ void secondHalf(vector<Player>& players)
                 player.distance = player.distance - 3;
             }
         }
-        if (monstDist == 0)
+        if (monstDist <= 0) // Monster win
         {
             cout << "The monster reaches the exit, barricading it shut. \nThere is no other way out.\n\n";
             this_thread::sleep_for(chrono::seconds(3));
-            cout << "Game over.";
+            cout << "Game over.\n\n";
             keepGoing = 0;
-            break;
+            exit(0);
         }
-        if (player.distance == 0)
+        if (player.distance <= 0) // Player win
         {
             cout << "You make it to the door, and insert the key.\n";
             this_thread::sleep_for(chrono::seconds(3));
-            cout << "It turns.\nSlowly, the door opens, and you smell the fresh air.\nThe monster shrieks in the moonlight, running deep into the house.\n\nYou have escaped.";
+            cout << "It turns.\nSlowly, the door opens, and you smell the fresh air.\nThe monster shrieks in the moonlight, running deep into the house.\n\nYou have escaped.\n\n";
+            exit(0);
         }
 
         cout << endl;
@@ -396,7 +392,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
                    cout << "----------------------------------------------------------" << endl;
                    cout << endl;
 
-                   int eventRoll = 0;
+                   int eventRoll = 0;                                  // This following large if block sees how much the effected trait will be modified
                    if (selectedEvent.help == "sa")
                    {
                        eventRoll = dice(player.character.sanity, n);
@@ -586,6 +582,7 @@ void turns(vector<Player>& players, vector<Event>& events, vector<Room>& rooms, 
 
            n += 1;
            }
+           n = 1;
          round++;
     }
 }
